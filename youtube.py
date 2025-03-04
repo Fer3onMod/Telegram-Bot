@@ -18,6 +18,7 @@ class YouTubeDownloader:
             'postprocessors': [
                 {'key': 'FFmpegMetadata'},
             ],
+            'force_generic_extractor': True  # ✅ تم إضافة force-generic-extractor
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
