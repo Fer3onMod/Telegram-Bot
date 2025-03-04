@@ -1,3 +1,8 @@
-API_ID = "28221983"
-API_HASH = "d4dde55766a34280ef19e22d5824308f"
-BOT_TOKEN = "8040245197:AAGf0iCGkk8SUubnEWEX-6GCG3zDBfWoD1k"
+import os
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")  # استدعاء توكن البوت
+API_ID = int(os.getenv("API_ID"))   # تحويل API_ID إلى رقم صحيح
+API_HASH = os.getenv("API_HASH")    # استدعاء API_HASH
+
+if not all([BOT_TOKEN, API_ID, API_HASH]):
+    raise ValueError("⚠️ تأكد من ضبط جميع المتغيرات في GitHub Secrets!")
