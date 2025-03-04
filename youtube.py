@@ -4,6 +4,7 @@ import os
 class YouTubeDownloader:
     def __init__(self):
         self.output_dir = "downloads"
+        self.cookies_file = "cookies.txt"  # ✅ إضافة ملف الكوكيز
         self._ensure_output_directory()
 
     def _ensure_output_directory(self):
@@ -18,7 +19,7 @@ class YouTubeDownloader:
             'postprocessors': [
                 {'key': 'FFmpegMetadata'},
             ],
-            'force_generic_extractor': True  # ✅ تم إضافة force-generic-extractor
+            'cookies': self.cookies_file  # ✅ تمرير ملف الكوكيز
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
