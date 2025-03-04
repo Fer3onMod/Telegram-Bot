@@ -4,7 +4,7 @@ import os
 class YouTubeDownloader:
     def __init__(self):
         self.output_dir = "downloads"
-        self.cookies_file = "cookies.txt"  # ✅ إضافة ملف الكوكيز
+        self.cookies_file = os.path.join(os.path.dirname(__file__), "cookies.txt")  # ✅ تحديد المسار الصحيح للكوكيز
         self._ensure_output_directory()
 
     def _ensure_output_directory(self):
@@ -12,6 +12,9 @@ class YouTubeDownloader:
             os.makedirs(self.output_dir)
 
     def download_video(self, url, client, chat_id):
+        if not os.path.exists(self.cookies_file):  # ✅ التأكد من وجود ملف الكوكيز
+            raise FileNotFoundError(f"❌ ملف الكوكيز غير موجود: {self.cookies_file}")
+
         ydl_opts = {
             'format': 'bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]',
             'merge_output_format': 'mp4',
@@ -19,7 +22,8 @@ class YouTubeDownloader:
             'postprocessors': [
                 {'key': 'FFmpegMetadata'},
             ],
-            'cookies': self.cookies_file  # ✅ تمرير ملف الكوكيز
+            'cookies': self.cookies_file,  # ✅ تمرير ملف الكوكيز
+            'verbose': True  # ✅ تمكين وضع Debug لمعرفة الأخطاء
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
